@@ -1,18 +1,19 @@
 //
-_____ _    _ _      _    __  __ ____  
-  / ____| |  | | |    / \  |  \/  |  _ \ 
- | (___ | |  | | |   / _ \ | |\/| | | | |
-  \___ \| |  | | |  / ___ \| |  | | |_| |
-  ____) | |__| | |_/ /   \ \_|  |_|____/ 
- |_____/ \____/|_____/     \_\          
- 
-             S U L A - M D
+// _____ _    _ _      _    __  __ ____  
+// / ____| |  | | |    / \  |  \/  |  _ \ 
+// | (___ | |  | | |   / _ \ | |\/| | | | |
+// \___ \| |  | | |  / ___ \| |  | | |_| |
+// ____) | |__| | |_/ /   \ \_|  |_|____/ 
+// |_____/ \____/|_____/     \_\          
+//
+//             S U L A - M D
 //
 
 import express from 'express';
 import bodyParser from 'body-parser';
 import { fileURLToPath } from 'url';
 import path from 'path';
+import events from 'events';
 
 // Importing the 'pair' module
 import code from './pair.js';
@@ -25,15 +26,14 @@ const __dirname = path.dirname(__filename);
 
 const PORT = process.env.PORT || 8000;
 
-import('events').then(events => {
-    events.EventEmitter.defaultMaxListeners = 500;
-});
+// Increase max event listeners to avoid warnings
+events.EventEmitter.defaultMaxListeners = 500;
 
 app.use('/code', code);
-app.use('/pair', async (req, res) => {
+app.use('/pair', (req, res) => {
     res.sendFile(path.join(__dirname, 'pair.html'));
 });
-app.use('/', async (req, res) => {
+app.use('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'main.html'));
 });
 
@@ -45,5 +45,3 @@ app.listen(PORT, () => {
 });
 
 export default app;
-
-//*හරි ලස්සනයි පකයලාගේ වැඩ
